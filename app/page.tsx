@@ -56,10 +56,7 @@ const MicrosoftAuthComponent: React.FC<{ onSignIn: (username: string) => void }>
       clientId="baf7a588-35f1-4d62-a7a8-c3891541a28c"
       authCallback={authHandler}
       redirectUri="http://localhost:3000/api/auth/callback"
-      buttonTheme="light">
-    
-
-    </MicrosoftLogin>
+      buttonTheme="light" >{}</MicrosoftLogin>
   );
 };
 
