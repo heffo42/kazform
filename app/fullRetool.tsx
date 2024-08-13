@@ -1,7 +1,14 @@
 import React, { useEffect } from 'react';
 import Retool from "react-retool" // Ensure you have this import for Retool
 
-const FullscreenRetoolComponent = ({ url, retoolData }) => {
+
+interface FullscreenRetoolComponentProps {
+    url: string;         // The URL should be a string
+    retoolData: any;     // Replace 'any' with a more specific type if possible
+  }
+  
+  const FullscreenRetoolComponent: React.FC<FullscreenRetoolComponentProps> = ({ url, retoolData }) => {
+   
   useEffect(() => {
     // Disable body scroll when the component is mounted
     document.body.style.overflow = 'hidden';
@@ -35,7 +42,7 @@ const styles = {
     overflow: 'hidden', // Ensure no scrollbars appear
     display: 'flex',
     flexDirection: 'column',
-  },
+  } as React.CSSProperties,
   fullscreen: {
     flex: 1,
     width: '100%',

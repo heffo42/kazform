@@ -1,7 +1,6 @@
 "use client";  // This ensures the entire file is treated as a client-side component
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, CSSProperties } from "react";
 import dynamic from "next/dynamic";
-import Cookies from 'js-cookie';
 // import Retool from "react-retool";
 import FullscreenRetoolComponent from './fullRetool'; // Adjust the path as necessary
 
@@ -57,8 +56,10 @@ const MicrosoftAuthComponent: React.FC<{ onSignIn: (username: string) => void }>
       clientId="baf7a588-35f1-4d62-a7a8-c3891541a28c"
       authCallback={authHandler}
       redirectUri="http://localhost:3000/api/auth/callback"
-      buttonTheme="light"
-    />
+      buttonTheme="light">
+    
+
+    </MicrosoftLogin>
   );
 };
 
@@ -78,10 +79,10 @@ export default function HomePage() {
 
   // Retrieve the username from the cookie when the component mounts
   useEffect(() => {
-    const cookieUsername = Cookies.get("username2");
-    if (cookieUsername) {
-        handleSignIn(cookieUsername);
-    }
+    // const cookieUsername = Cookies.get("username2");
+    // if (cookieUsername) {
+    //     handleSignIn(cookieUsername);
+    // }
   }, []);
 
 //   const domain = username.split('@')[1];
