@@ -19,9 +19,10 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "node_modules/react-microsoft-login", "node_modules/react-retool","node_modules/react-retool", "node_modules/@emotion/react", "node_modules/@emotion/styled", "node_modules/@mui/icons-material", "node_modules/@mui/material"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "node_modules/react-microsoft-login", "node_modules/react-retool","node_modules/react-retool", "node_modules/@emotion/react", "node_modules/@emotion/styled", "node_modules/@mui/icons-material", "node_modules/@mui/material", "src/**/*", "src/types/**/*"],
   "exclude": ["node_modules"]
 }
 
