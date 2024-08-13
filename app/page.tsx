@@ -55,7 +55,7 @@ const MicrosoftAuthComponent: React.FC<{ onSignIn: (username: string) => void }>
     <MicrosoftLogin
       clientId="baf7a588-35f1-4d62-a7a8-c3891541a28c"
       authCallback={authHandler}
-      redirectUri="https://kazform-git-main-heffo42s-projects.vercel.app"
+      redirectUri="https://kazform-git-main-heffo42s-projects.vercel.app/callback"
       buttonTheme="light" >
         <button
       style={{
