@@ -56,7 +56,27 @@ const MicrosoftAuthComponent: React.FC<{ onSignIn: (username: string) => void }>
       clientId="baf7a588-35f1-4d62-a7a8-c3891541a28c"
       authCallback={authHandler}
       redirectUri="http://localhost:3000/api/auth/callback"
-      buttonTheme="light" />
+      buttonTheme="light" >
+        <button
+      style={{
+        backgroundColor: '#0078D4',
+        color: 'white',
+        padding: '10px 20px',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        borderRadius: '4px',
+        border: 'none',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+
+      Sign in with Microsoft
+    </button>
+
+        
+      </MicrosoftLogin>
   );
 };
 
