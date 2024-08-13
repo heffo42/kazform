@@ -1,113 +1,162 @@
-import Image from "next/image";
+"use client";  // This ensures the entire file is treated as a client-side component
+import React, { useState, useCallback, useEffect } from "react";
+import dynamic from "next/dynamic";
+import Cookies from 'js-cookie';
+// import Retool from "react-retool";
+import FullscreenRetoolComponent from './fullRetool'; // Adjust the path as necessary
 
-export default function Home() {
+import Image from 'next/image';
+import myImage from '/public/kaz_real.png'; // Assuming the image is in the public folder
+
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+
+
+
+
+// Define types for the parameters (you can adjust these types based on your needs)
+type AuthError = any; // or define a more specific type if you know it
+type AuthData = {
+  account: {
+    username: string;
+  };
+};
+
+// Dynamically import the MicrosoftLogin component to disable SSR
+const MicrosoftLogin = dynamic(() => import("react-microsoft-login"), {
+  ssr: false,
+});
+
+// Define your component to use MicrosoftLogin
+const MicrosoftAuthComponent: React.FC<{ onSignIn: (username: string) => void }> = ({ onSignIn }) => {
+
+  // Define your auth handler function
+  const authHandler = useCallback((err: AuthError, data: AuthData) => {
+    console.log(err, data);
+
+    if (!err) {
+      // Extract the username from the data object
+      const username = data.account.username;
+
+    //   // Set the cookie with the username
+    //   Cookies.set('username', username, {
+    //     expires: 30, // Cookie expiry in days
+    //     path: '/',   // Path where the cookie is available
+    //   });
+
+      // Invoke the onSignIn callback to update the state in the parent component
+      onSignIn(username);
+    } else {
+      // Handle the error if needed
+      console.error('Authentication error:', err);
+    }
+  }, [onSignIn]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <MicrosoftLogin
+      clientId="baf7a588-35f1-4d62-a7a8-c3891541a28c"
+      authCallback={authHandler}
+      redirectUri="http://localhost:3000/api/auth/callback"
+      buttonTheme="light"
+    />
+  );
+};
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+  
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+export default function HomePage() {
+  const [isSignedIn, setIsSignedIn] = useState(false); // Track the sign-in state
+  const [username, setUsername] = useState<string | null>(null); // Track the username
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+  // Function to handle sign-in state update
+  const handleSignIn = (username: string) => {
+    setUsername(username);
+    setIsSignedIn(true);
+  };
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+
+  // Retrieve the username from the cookie when the component mounts
+  useEffect(() => {
+    const cookieUsername = Cookies.get("username2");
+    if (cookieUsername) {
+        handleSignIn(cookieUsername);
+    }
+  }, []);
+
+//   const domain = username.split('@')[1];
+const domain = getDomainFromEmail(username)
+  const retoolData = { username: username }
+  const url = `https://nextgenmsps.retool.com/embedded/public/c1f3b3e9-a463-4e5b-969d-3f8953447bff?username=${username}&domain=${domain}`
+//   const url = `https://nextgenmsps.retool.com/form/c7a1a0f5-b587-43f1-8aaa-7faf0c04f34b?username=${username}`
+
+
+  return (
+    <main>
+      <div>
+        {isSignedIn ? ( 
+            
+            <FullscreenRetoolComponent url={url} retoolData={retoolData} />
+            
+           )  : (
+        
+
+
+            <div style={containerStyle}>
+            <Card style={cardStyle} variant="outlined" raised={true} elevation={3} sx={{ boxShadow: 3 }}>
+              <div style={imageStyle}>
+                <Image 
+                  src={myImage} 
+                  alt="Description of image" 
+                  layout="responsive"
+                />
+              </div>
+              <MicrosoftAuthComponent onSignIn={handleSignIn} />
+            </Card>
+          </div>
+
+
+        )}
       </div>
     </main>
   );
 }
+
+function getDomainFromEmail(email: string | null | undefined): string | null {
+    // Check if the email is null or undefined
+    if (!email) {
+        return null;
+    }
+
+    // Split the email by the "@" symbol
+    const parts = email.split('@');
+    
+    // Return the domain part
+    return parts.length === 2 ? parts[1] : null;
+}
+
+
+const containerStyle: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100vh',
+    textAlign: 'center',
+  };
+
+  const imageStyle: CSSProperties = {
+    marginBottom: '80px', // Adjust the value as needed
+    width: '100%',        // Ensures the image fits within the card
+    height: 'auto',       // Maintains aspect ratio
+  };
+
+  const cardStyle: CSSProperties = {
+    padding: '20px',      // Adds padding inside the card
+    minWidth: '40vw',    // Ensures minimum width for the card
+    minHeight: '400px',   // Ensures minimum height for the card
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: '-20vh',
+    alignItems: 'center',
+  };
