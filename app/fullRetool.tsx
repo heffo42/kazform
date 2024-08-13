@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Retool from "react-retool";; // Ensure you have this import for Retool
+import Retool from "react-retool" // Ensure you have this import for Retool
 
 const FullscreenRetoolComponent = ({ url, retoolData }) => {
   useEffect(() => {
